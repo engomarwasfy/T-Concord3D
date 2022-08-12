@@ -30,8 +30,7 @@ class FocalLoss(nn.Module):
 
         if self.ssl and lcw is not None:
             norm_lcw = (lcw/100.0)
-            weighted_loss = (raw_loss * lcw).mean()
-            return weighted_loss
+            return (raw_loss * lcw).mean()
         else:
             return raw_loss.mean()
 

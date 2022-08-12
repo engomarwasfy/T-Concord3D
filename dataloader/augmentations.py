@@ -109,13 +109,12 @@ def RotateX(points,v): # ( 0 , 2 * pi)
     normals = points.size(1) > 3
     if not normals:
         return points @ rotation_matrix.t()
-    else:
-        pc_xyz = points[:, 0:3]
-        pc_normals = points[:, 3:]
-        points[:, 0:3] = pc_xyz @ rotation_matrix.t()
-        points[:, 3:] = pc_normals @ rotation_matrix.t()
+    pc_xyz = points[:, 0:3]
+    pc_normals = points[:, 3:]
+    points[:, 0:3] = pc_xyz @ rotation_matrix.t()
+    points[:, 3:] = pc_normals @ rotation_matrix.t()
 
-        return points
+    return points
 
 def RotateY(points,v): # ( 0 , 2 * pi)
     assert 0 <= v <= 2 * np.pi
@@ -129,13 +128,12 @@ def RotateY(points,v): # ( 0 , 2 * pi)
     normals = points.size(1) > 3
     if not normals:
         return points @ rotation_matrix.t()
-    else:
-        pc_xyz = points[:, 0:3]
-        pc_normals = points[:, 3:]
-        points[:, 0:3] = pc_xyz @ rotation_matrix.t()
-        points[:, 3:] = pc_normals @ rotation_matrix.t()
+    pc_xyz = points[:, 0:3]
+    pc_normals = points[:, 3:]
+    points[:, 0:3] = pc_xyz @ rotation_matrix.t()
+    points[:, 3:] = pc_normals @ rotation_matrix.t()
 
-        return points
+    return points
 
 
 def RotateZ(points,v): # ( 0 , 2 * pi)
@@ -150,13 +148,12 @@ def RotateZ(points,v): # ( 0 , 2 * pi)
     normals = points.size(1) > 3
     if not normals:
         return points @ rotation_matrix.t()
-    else:
-        pc_xyz = points[:, 0:3]
-        pc_normals = points[:, 3:]
-        points[:, 0:3] = pc_xyz @ rotation_matrix.t()
-        points[:, 3:] = pc_normals @ rotation_matrix.t()
+    pc_xyz = points[:, 0:3]
+    pc_normals = points[:, 3:]
+    points[:, 0:3] = pc_xyz @ rotation_matrix.t()
+    points[:, 3:] = pc_normals @ rotation_matrix.t()
 
-        return points
+    return points
 
 def RandomAxisRotation(points,v):
     assert 0 <= v <= 2 * np.pi
@@ -169,13 +166,12 @@ def RandomAxisRotation(points,v):
     normals = points.size(1) > 3
     if not normals:
         return points @ rotation_matrix.t()
-    else:
-        pc_xyz = points[:, 0:3]
-        pc_normals = points[:, 3:]
-        points[:, 0:3] = pc_xyz @ rotation_matrix.t()
-        points[:, 3:] = pc_normals @ rotation_matrix.t()
+    pc_xyz = points[:, 0:3]
+    pc_normals = points[:, 3:]
+    points[:, 0:3] = pc_xyz @ rotation_matrix.t()
+    points[:, 3:] = pc_normals @ rotation_matrix.t()
 
-        return points
+    return points
 
 def RotatePerturbation(points,v):
     assert 0 <= v <= 10
@@ -316,41 +312,32 @@ def Identity(points , v):
 
 def augment_list():  #  operations and their ranges
 
-    l = (
-        (Identity , 0 ,10),
-
+    return (
+        (Identity, 0, 10),
         (RandomFlipX, 0, 1),
         (RandomFlipY, 0, 1),
         (RandomFlipZ, 0, 1),
-
         (ScaleX, 0, 0.5),
         (ScaleY, 0, 0.5),
         (ScaleZ, 0, 0.5),
-        (NonUniformScale, 0 , 0.5),
-        (Resize , 0 , 0.5),
-
+        (NonUniformScale, 0, 0.5),
+        (Resize, 0, 0.5),
         (RotateX, 0, 2 * np.pi),
         (RotateY, 0, 2 * np.pi),
         (RotateZ, 0, 2 * np.pi),
         (RandomAxisRotation, 0, 2 * np.pi),
-
         (RotatePerturbation, 0, 10),
-        (Jitter, 0 , 10),
-
-        (UniformTranslate, 0 , 0.5),
-        (NonUniformTranslate, 0 , 0.5),
-
-        (RandomDropout, 0.3 , 0.875),
+        (Jitter, 0, 10),
+        (UniformTranslate, 0, 0.5),
+        (NonUniformTranslate, 0, 0.5),
+        (RandomDropout, 0.3, 0.875),
         (RandomErase, 0, 0.5),
-        (PointToNoise, 0 , 0.5),
-
-        (ShearXY, 0 , 0.5 ),
-        (ShearYZ, 0 , 0.5 ),
-        (ShearXZ, 0 , 0.5 ),
-        (GlobalAffine , 0 , 0.15),
+        (PointToNoise, 0, 0.5),
+        (ShearXY, 0, 0.5),
+        (ShearYZ, 0, 0.5),
+        (ShearXZ, 0, 0.5),
+        (GlobalAffine, 0, 0.15),
     )
-
-    return l
 
 
 # class RandAugment3D:
@@ -406,10 +393,10 @@ class RandAugment3D:
                 self.n += 1
             elif self.m < 10:
                 self.m += 1
-            print("\n Increase N,M from ({},{}) to ({} ,{}) \n".format(N_tmp, M_tmp, self.n, self.m))
+            print(f"\n Increase N,M from ({N_tmp},{M_tmp}) to ({self.n} ,{self.m}) \n")
         elif increase == False:
             if np.random.random() > 0.5 and self.n > 1:
                 self.n -= 1
             elif self.m > 1:
                 self.m -= 1
-            print("\n Decrease N,M from ({},{}) to ({} ,{}) \n".format(N_tmp, M_tmp, self.n, self.m))
+            print(f"\n Decrease N,M from ({N_tmp},{M_tmp}) to ({self.n} ,{self.m}) \n")

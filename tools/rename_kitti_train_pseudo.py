@@ -25,18 +25,25 @@ def main():
     source = '/mnt/beegfs/gpu/argoverse-tracking-all-training/semantic-kitti/train_pseudo_40/sequences'
     destination = '/mnt/beegfs/gpu/argoverse-tracking-all-training/semantic-kitti/train_pseudo_40/sequences'
 
-    for i, sq in enumerate(sequence):
+    for sq in sequence:
         files = sorted(glob.glob(os.path.join(source, sq, "velodyne", '*.bin')))
         total_frame = range(len(files))
 
 
-        for frame, data  in enumerate(files):
+        for frame, data in enumerate(files):
             frame_name = str(frame).zfill(6)
 
             frame_data = data[-10:-4]
 
-            os.rename(os.path.join(source, sq, "velodyne", frame_data + '.bin'), os.path.join( source, sq, "velodyne", frame_name + '.bin'))
-            os.rename(os.path.join(source, sq, "labels", frame_data + '.label'), os.path.join(source, sq, "labels", frame_name + '.label'))
+            os.rename(
+                os.path.join(source, sq, "velodyne", f'{frame_data}.bin'),
+                os.path.join(source, sq, "velodyne", f'{frame_name}.bin'),
+            )
+
+            os.rename(
+                os.path.join(source, sq, "labels", f'{frame_data}.label'),
+                os.path.join(source, sq, "labels", f'{frame_name}.label'),
+            )
             # shutil.copy(os.path.join(source, sq, "calib.txt"), os.path.join(destination, des_seq[i], "calib.txt"))
             # shutil.copy(os.path.join(source, sq, "poses.txt"), os.path.join(destination, des_seq[i], "poses.txt"))
             # shutil.copy(os.path.join(source, sq, "times.txt"), os.path.join( destination, des_seq[i], "times.txt"))
@@ -46,4 +53,4 @@ def main():
 if __name__ == '__main__':
 
     main()
-    print(f"------------------------------Task finished-------------------------")
+    print("------------------------------Task finished-------------------------")
