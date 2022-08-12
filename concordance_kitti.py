@@ -28,7 +28,7 @@ def main(args):
     destination = args.destination
     sequence = ["00", "01", "02", "03", "04", "05", "06", "07", "09", "10"]
 
-    for i, sq in enumerate(sequence):
+    for sq in sequence:
         pred_t1 = sorted(glob.glob(os.path.join(source, sq, f"predictions_{teacher_1}", '*.label')))
         pred_t2 = sorted(glob.glob(os.path.join(source, sq, f"predictions_{teacher_2}", '*.label')))
 
@@ -77,8 +77,23 @@ def main(args):
                 os.makedirs(os.path.join(destination, sq, f"predictions_{concordance}"))
                 os.makedirs(os.path.join(destination, sq, f"probability_{concordance}"))
 
-            best_pred.tofile(os.path.join(destination, sq, f"predictions_{concordance}", frame_name + '.label'))
-            new_prob.tofile(os.path.join(destination, sq, f"probability_{concordance}", frame_name + '.label'))
+            best_pred.tofile(
+                os.path.join(
+                    destination,
+                    sq,
+                    f"predictions_{concordance}",
+                    f'{frame_name}.label',
+                )
+            )
+
+            new_prob.tofile(
+                os.path.join(
+                    destination,
+                    sq,
+                    f"probability_{concordance}",
+                    f'{frame_name}.label',
+                )
+            )
 
 
 if __name__ == '__main__':

@@ -227,7 +227,7 @@ def main(args):
                 print(f"Current val loss is {np.round(np.mean(val_loss_list), 2)}")
 
         def training(i_iter_train, train_vox_label, train_grid, pt_labels, train_pt_fea, ref_st_idx=None,
-                     ref_end_idx=None, lcw=None):
+                             ref_end_idx=None, lcw=None):
             global global_iter, best_val_miou, epoch
 
             train_pt_fea_ten = [torch.from_numpy(i).type(torch.FloatTensor).to(pytorch_device) for i in train_pt_fea]
@@ -260,7 +260,7 @@ def main(args):
             loss_list.append(loss.item())
 
             if global_iter % 1000 == 0:
-                if len(loss_list) > 0:
+                if loss_list:
                     print('epoch %d iter %5d, loss: %.3f\n' %
                           (epoch, i_iter_train, np.mean(loss_list)))
                 else:
@@ -274,7 +274,7 @@ def main(args):
                 pbar.update(100)
 
             if global_iter % check_iter == 0:
-                if len(loss_list) > 0:
+                if loss_list:
                     print('epoch %d iter %5d, loss: %.3f\n' %
                           (epoch, i_iter_train, np.mean(loss_list)))
                 else:

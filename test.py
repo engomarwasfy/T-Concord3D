@@ -49,7 +49,7 @@ def main(args):
 
     configs = load_config_data(config_path)
 
-    if args.mode == 'infer' or args.mode == 'val' or args.mode == 'test':
+    if args.mode in ['infer', 'val', 'test']:
         configs['train_params']['ssl'] = False
 
     # send config parameters to pc_dataset
@@ -255,12 +255,15 @@ def main(args):
                         os.makedirs(path_to_seq_folder)
 
                     # dump predictions and probability
-                    predict_labels_serialized.tofile(path_to_seq_folder + '/' + sample_name + '.label')
+                    predict_labels_serialized.tofile(f'{path_to_seq_folder}/{sample_name}.label')
 
                     if not args.challenge:
                         if not os.path.exists(path_to_seq_folder_prob):
                             os.makedirs(path_to_seq_folder_prob)
-                        predict_prob_serialized.tofile(path_to_seq_folder_prob + '/' + sample_name + '.label')
+                        predict_prob_serialized.tofile(
+                            f'{path_to_seq_folder_prob}/{sample_name}.label'
+                        )
+
 
         # Validation with multi-frames and ssl:
         # if past_frame > 0 and train_hypers['ssl']:

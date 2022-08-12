@@ -11,18 +11,18 @@ def build(wce=True, lovasz=True, num_class=20, ignore_label=None, weights=None, 
     if ssl and fl:
         if wce and lovasz:
             return FocalLoss(weight=weights, ignore_index=ignore_label), lovasz_softmax_lcw
-        elif wce and not lovasz:
+        elif wce:
             return wce
-        elif not wce and lovasz:
+        elif lovasz:
             return lovasz_softmax_lcw
 
     # only semi-supervised learning
     if ssl:
         if wce and lovasz:
             return cross_entropy_lcw, lovasz_softmax_lcw
-        elif wce and not lovasz:
+        elif wce:
             return wce
-        elif not wce and lovasz:
+        elif lovasz:
             return lovasz_softmax_lcw
 
     # focal loss on GT (fully supervised)
@@ -33,9 +33,9 @@ def build(wce=True, lovasz=True, num_class=20, ignore_label=None, weights=None, 
 
     if wce and lovasz:
         return loss_funs, lovasz_softmax
-    elif wce and not lovasz:
+    elif wce:
         return wce
-    elif not wce and lovasz:
+    elif lovasz:
         return lovasz_softmax
     else:
         raise NotImplementedError

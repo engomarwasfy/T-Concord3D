@@ -174,20 +174,18 @@ class SemKITTI_sk_multiscan(data.Dataset):
         """
         calib = {}
 
-        calib_file = open(filename)
-        for line in calib_file:
-            key, content = line.strip().split(":")
-            values = [float(v) for v in content.strip().split()]
+        with open(filename) as calib_file:
+            for line in calib_file:
+                key, content = line.strip().split(":")
+                values = [float(v) for v in content.strip().split()]
 
-            pose = np.zeros((4, 4))
-            pose[0, 0:4] = values[0:4]
-            pose[1, 0:4] = values[4:8]
-            pose[2, 0:4] = values[8:12]
-            pose[3, 3] = 1.0
+                pose = np.zeros((4, 4))
+                pose[0, 0:4] = values[:4]
+                pose[1, 0:4] = values[4:8]
+                pose[2, 0:4] = values[8:12]
+                pose[3, 3] = 1.0
 
-            calib[key] = pose
-
-        calib_file.close()
+                calib[key] = pose
 
         return calib
 
@@ -209,7 +207,7 @@ class SemKITTI_sk_multiscan(data.Dataset):
         for line in file:
             values = [float(v) for v in line.strip().split()]
             pose = np.zeros((4, 4))
-            pose[0, 0:4] = values[0:4]
+            pose[0, 0:4] = values[:4]
             pose[1, 0:4] = values[4:8]
             pose[2, 0:4] = values[8:12]
             pose[3, 3] = 1.0
